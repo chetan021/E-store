@@ -11,7 +11,7 @@ const StoreOwnerLogin = () => {
     try {
       const res = await axios.post('http://localhost:3000/storeowner/login', form);
       localStorage.setItem('storeOwner', JSON.stringify(res.data));
-      navigate('/store-owner/upload'); // Redirect to product upload page
+      navigate('/store-owner/upload-product'); // Redirect to product upload page
     } catch (err) {
       alert(err.response?.data?.message || 'Login failed');
     }

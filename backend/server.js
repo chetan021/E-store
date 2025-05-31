@@ -127,14 +127,58 @@ app.post('/storeowner/login', async (req, res) => {
 
 //Store Product 
 app.post('/storeowner/upload-product', async (req, res) => {
-  const { title, description, price, image, ownerId } = req.body;
+  const {
+    ownerId,
+    name,
+    description,
+    quantity,
+    category,
+    brand,
+    tags,
+    price,
+    image,
+  } = req.body;
+  console.log('Incoming product:', req.body); // Add this line
 
   try {
-    const newProduct = new StoreProduct({ title, description, price, image, ownerId });
-    await newProduct.save();
-    res.json({ message: 'Product uploaded successfully' });
+    const product = new StoreProduct({
+      ownerId,
+      name,
+      description,
+      quantity,
+      category,
+      brand,
+      tags,
+      price,
+      image,
+    });
+
+    await product.save();
+    res.status(201).json({ message: 'Product uploaded successfully' });
   } catch (err) {
-    res.status(500).json({ message: 'Upload failed', error: err.message });
+    res.status(500).json({ message: 'Failed to upload product', error: err.message });
+  }
+});
+
+//Store ouner uploaded products page
+app.get('/storeowner/products/:ownerId', async (req, res) => {
+  const { ownerId } = req.params;
+  try {
+    const products = await StoreProduct.find({ ownerId });
+    res.json({ products });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch products', error: err.message });
+  }
+});
+
+//Dispalying the product at home page
+// Get all store products
+app.get('/storeowner/products', async (req, res) => {
+  try {
+    const products = await StoreProduct.find(); // assuming your model is StoreProduct
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch products', error: err.message });
   }
 });
 
