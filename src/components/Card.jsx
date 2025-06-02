@@ -35,7 +35,7 @@ const ProductCard = ({ image, title, description, price, asin }) => {
       
       className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 block cursor-pointer"
     >
-      <img src={image} alt={title} className="w-full h-48 object-cover" />
+      <img src={image} alt={title} className="w-full h-48 object-contain" />
       <div className="p-4">
         <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
         <p className="text-sm text-gray-600 mt-1">{description}</p>

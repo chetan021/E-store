@@ -1,18 +1,26 @@
 import { useEffect, useState } from "react";
 import ProductCard from '../components/Card';
 import HeroSection from '../components/HeroSection';
-import Catagories from '../components/Catagories';
-import CategorySection from '../components/CatagoriesSection';
+// import Catagories from '../components/Catagories';
+// import CategorySection from '../components/CatagoriesSection';
 import Header from '../components/Header';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
+  const [user, setUser] = useState(null); 
 
-  // Fetch products from your backend
+  useEffect(() => {
+  const storedUser = localStorage.getItem('user');
+  if (storedUser) {
+    setUser(JSON.parse(storedUser));
+  }
+}, []);
+  // Fetch all store owner uploaded products
   useEffect(() => {
     const loadProducts = async () => {
       try {
@@ -27,75 +35,74 @@ export default function Home() {
     loadProducts();
   }, []);
 
-  // Search and category filtering logic
+  // Filter products based on search and category
   useEffect(() => {
-    let filtered = products;
+  const normalize = (str) => (str || '').toLowerCase();
+  let filtered = [...products];
 
-    if (categoryFilter !== 'All') {
-      filtered = filtered.filter(p => p.category.toLowerCase() === categoryFilter.toLowerCase());
-    }
+  if (categoryFilter !== 'All') {
+    filtered = filtered.filter(p => normalize(p.category) === normalize(categoryFilter));
+  }
 
-    if (searchTerm.trim() !== '') {
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.brand.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+  if (searchTerm.trim() !== '') {
+    const search = normalize(searchTerm);
+    filtered = filtered.filter(p =>
+      normalize(p.name).includes(search) ||
+      normalize(p.description).includes(search) ||
+      normalize(p.brand).includes(search)
+    );
+  }
 
-    setFilteredProducts(filtered);
-  }, [searchTerm, categoryFilter, products]);
-
-  // Collect unique categories for filter dropdown
+  setFilteredProducts(filtered);
+}, [searchTerm, categoryFilter, products]);
+  // Collect unique categories
   const categories = ['All', ...new Set(products.map(p => p.category))];
 
   return (
-    <>
-      <div className="w-screen min-h-screen bg-gray-100">
-        <Header />
-        <HeroSection />
-        <Catagories />
-        <CategorySection />
+    <div className=" w-screen min-h-screen bg-gray-100">
+      <Header />
+      <HeroSection />
+      {/* <Catagories /> */}
+      {/* <CategorySection /> */}
 
-        <div className="p-6 max-w-7xl mx-auto">
-          {/* Search input */}
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="w-full max-w-md mb-4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <div className="p-6 max-w-7xl mx-auto">
+        {/* Search input */}
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="w-full max-w-md mb-4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-          {/* Category filter */}
-          <select
-            className="mb-6 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-          >
-            {categories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
+        {/* Category filter */}
+        <select
+          className="mb-6 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
 
-          {/* Products grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
+        {/* Products grid */}
+        <div className="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <Link to={`/product/${product._id}`} key={product._id}>
                 <ProductCard
-                  key={product._id}
                   image={product.image}
                   title={product.name}
                   price={`₹ ${product.price}`}
-                  asin={product._id}
                 />
-              ))
-            ) : (
-              <p className="text-center col-span-full text-gray-600">No products found.</p>
-            )}
-          </div>
+              </Link>
+            ))
+          ) : (
+            <p className="text-center col-span-full text-gray-600">No products found.</p>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

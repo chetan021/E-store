@@ -1,52 +1,48 @@
-import { useParams } from "react-router-dom";
+// src/pages/ProductDetails.jsx
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const ProductDetail = () => {
-  const { asin } = useParams();
+export default function ProductDetails() {
+  const { productId } = useParams(); // ← This extracts the ID from the URL
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    const fetchDetails = async () => {
-        const options = {
-            method: 'GET',
-            url: 'https://real-time-amazon-data.p.rapidapi.com/product-details',
-            params: {
-              asin: asin,
-              country: 'US'
-            },
-            headers: {
-              'x-rapidapi-key': 'd5250d1e39mshe00821e9968d82cp191e6ajsn9aa64de8e85b',
-              'x-rapidapi-host': 'real-time-amazon-data.p.rapidapi.com'
-            }
-          };
-
+    const loadProduct = async () => {
       try {
-        const response = await axios.request(options);
-        setProduct(response.data.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
+        const res = await axios.get(`http://localhost:3000/storeowner/product/${productId}`);
+        setProduct(res.data);
+      } catch (err) {
+        console.error("Error fetching product:", err);
       }
     };
 
-    fetchDetails();
-  }, [asin]);
+    if (productId) {
+      loadProduct();
+    } else {
+      console.warn("productId is undefined");
+    }
+  }, [productId]);
 
-  if (!product) return <div className="p-6">Loading...</div>;
+  if (!product) return <p>Loading product details...</p>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">{product.product_title}</h1>
-      <img
-        src={product.product_photo}
-        alt={product.product_title}
-        className="w-full max-h-96 object-contain mb-4"
-      />
-      <p className="text-gray-700 mb-2">Price: {product.product_price}</p>
-      <p className="text-gray-600">{product.product_description}</p>
+    <div className="max-w-4xl mx-auto p-6">
+      <img src={product.image} alt={product.name} className="w-full h-80 object-contain rounded-lg" />
+      <h2 className="text-3xl font-bold mt-4">{product.name}</h2>
+      <p className="text-lg text-gray-600">{product.description}</p>
+      <p className="mt-2 font-semibold text-xl">₹ {product.price}</p>
+      <p className="text-sm text-gray-500 mt-1">Category: {product.category}</p>
+      <p className="text-sm text-gray-500">Brand: {product.brand}</p>
+      <p className="text-sm text-gray-500">Quantity Available: {product.quantity}</p>
+      <div className="mt-3">
+        <span className="font-medium">Tags:</span>{" "}
+        {product.tags?.map((tag, index) => (
+          <span key={index} className="inline-block bg-blue-100 text-blue-700 text-sm px-2 py-1 rounded mr-2">
+            {tag}
+          </span>
+        ))}
+      </div>
     </div>
   );
-};
-
-export default ProductDetail;
+}

@@ -2,7 +2,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import ProductDetail from './pages/ProductDetail';
+import ProductDetails from './pages/ProductDetail';
 import LoginPage from "./pages/LoginPage";
 import CartPage from './pages/CartPage';
 import StoreOwnerLandingPage from './pages/StoreOwnerLandingPage';
@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/login' element={<LoginPage />} />
-        <Route path='/product/:asin' element={<ProductDetail/>} />
+        <Route path="/product/:productId" element={<ProductDetails />} />
         <Route path='/cart' element={<CartPage/>} />
         <Route path="/store-owner" element={<StoreOwnerLandingPage />} />
         <Route path="/store-owner/login" element={<StoreOwnerLogin />} />
