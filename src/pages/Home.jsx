@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/storeowner/products');
+        const response = await axios.get('https://e-store-wg39.onrender.com/storeowner/products');
         setProducts(response.data);
         setFilteredProducts(response.data);
       } catch (err) {

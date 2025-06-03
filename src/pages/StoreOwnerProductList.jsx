@@ -12,7 +12,7 @@ const StoreOwnerProductList = () => {
     if (!owner) return alert('You must be logged in');
 
     axios
-      .get(`http://localhost:3000/storeowner/products/${owner.ownerId}`)
+      .get(`https://e-store-wg39.onrender.com/storeowner/products/${owner.ownerId}`)
       .then((res) => setProducts(res.data.products))
       .catch(() => alert('Failed to fetch products'));
   }, []);

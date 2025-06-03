@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const ProductCard = ({ image, title, description, price, asin }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate(`/product/${asin}`);
-  };
+  // const handleClick = () => {
+  //   navigate(`/product/${asin}`);
+  // };
 
   const handleAddToCart = async () => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -16,7 +16,7 @@ const ProductCard = ({ image, title, description, price, asin }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/add-to-cart', {
+      const response = await axios.post('https://e-store-wg39.onrender.com/add-to-cart', {
         userId: user.userId,
         asin,
         title,

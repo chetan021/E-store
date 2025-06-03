@@ -11,7 +11,7 @@ const CartPage = () => {
     if (!user) return;
 
     try {
-      const response = await axios.get(`http://localhost:3000/cart/${user.userId}`);
+      const response = await axios.get(`https://e-store-wg39.onrender.com/cart/${user.userId}`);
       setCartItems(response.data.cart);
 
       const totalPrice = response.data.cart.reduce((acc, item) => {

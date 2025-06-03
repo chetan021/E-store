@@ -9,7 +9,7 @@ const StoreOwnerLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/storeowner/login', form);
+      const res = await axios.post('https://e-store-wg39.onrender.com/storeowner/login', form);
       localStorage.setItem('storeOwner', JSON.stringify(res.data));
       navigate('/store-owner/upload-product'); // Redirect to product upload page
     } catch (err) {

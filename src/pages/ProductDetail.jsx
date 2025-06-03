@@ -11,7 +11,7 @@ export default function ProductDetails() {
   useEffect(() => {
     const loadProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/storeowner/product/${productId}`);
+        const res = await axios.get(`https://e-store-wg39.onrender.com/storeowner/product/${productId}`);
         setProduct(res.data);
       } catch (err) {
         console.error("Error fetching product:", err);

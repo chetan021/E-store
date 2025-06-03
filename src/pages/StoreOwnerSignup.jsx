@@ -7,7 +7,7 @@ const StoreOwnerSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/storeowner/signup', form);
+      const res = await axios.post('https://e-store-wg39.onrender.com/storeowner/signup', form);
       if (res && res.data) {
       localStorage.setItem('storeOwner', JSON.stringify(res.data));
       navigate('/store-owner/upload');

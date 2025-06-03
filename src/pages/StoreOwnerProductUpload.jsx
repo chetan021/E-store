@@ -22,7 +22,7 @@ const StoreOwnerProductUpload = () => {
     if (!owner) return alert('You must be logged in');
 
     try {
-      await axios.post('http://localhost:3000/storeowner/upload-product', {
+      await axios.post('https://e-store-wg39.onrender.com/storeowner/upload-product', {
         ...product,
         // ownerId: owner.userId,
         ownerId: owner.ownerId,
