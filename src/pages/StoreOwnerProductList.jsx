@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 const StoreOwnerProductList = () => {
   const [products, setProducts] = useState([]);
@@ -17,7 +18,9 @@ const StoreOwnerProductList = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8">
+    <>
+    <Header />
+    <div className="min-h-screen bg-gray-50 px-4 py-8 pt-20">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">Your Uploaded Products</h2>
 
@@ -41,7 +44,7 @@ const StoreOwnerProductList = () => {
 
         <div className="text-center mt-10">
           <button
-            onClick={() => navigate('/store-owner/upload')}
+            onClick={() => navigate('/store-owner/upload-product')}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
           >
             Upload More Products
@@ -49,6 +52,7 @@ const StoreOwnerProductList = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

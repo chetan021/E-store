@@ -1,10 +1,14 @@
+import Header from "../components/Header";
+
 import { useNavigate } from "react-router-dom";
 
 const StoreOwnerLandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-6">
+    <>
+    <Header />
+      <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center pt-20">
       <div className="max-w-2xl text-center">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome Store Owners</h1>
         <p className="text-gray-600 text-lg mb-6">
@@ -42,6 +46,7 @@ const StoreOwnerLandingPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

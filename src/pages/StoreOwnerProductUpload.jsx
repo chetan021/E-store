@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import Header from '../components/Header';
 
 const StoreOwnerProductUpload = () => {
   const navigate = useNavigate();
@@ -49,7 +49,9 @@ const StoreOwnerProductUpload = () => {
     'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500';
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <>
+    <Header />
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 pt-20">
       <div className="max-w-xl w-full bg-white p-8 rounded-2xl shadow-md">
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">Upload Product</h2>
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -123,6 +125,7 @@ const StoreOwnerProductUpload = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

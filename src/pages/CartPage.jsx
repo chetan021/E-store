@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Header from '../components/Header';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -29,7 +30,10 @@ const CartPage = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div>
+    {/* <div><Header/></div> */}
+      <Header />
+  <div className="max-w-4xl mx-auto p-4 block pt-20">
       <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
       {cartItems.length === 0 ? (
         <p>Your cart is empty.</p>
@@ -53,6 +57,7 @@ const CartPage = () => {
         </>
       )}
     </div>
+</div>
   );
 };
 

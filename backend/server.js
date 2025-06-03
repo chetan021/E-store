@@ -182,7 +182,6 @@ app.get('/storeowner/products', async (req, res) => {
   }
 });
 
-
 //product detail route
 app.get('/storeowner/product/:id', async (req, res) => {
   const { id } = req.params;
